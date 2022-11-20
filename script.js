@@ -12,7 +12,8 @@ function w3_open() {
   function w3_close() {
     document.getElementById("menuLateral").style.display = "none";
   }
-  */
+  
+  mostrar e esconder senha-------------------------
 
   const password = document.getElementById('password')
   const icon = document.getAnimations('icon')
@@ -27,4 +28,4 @@ function w3_open() {
       icon.classList.remove('hide')
     }
   }
-  
+  */

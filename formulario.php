@@ -1,44 +1,3 @@
-<?php 
-    if(isset($_POST['submit']))
-    {
-       /* aparecendo na tela as informações
-        print_r("Nome: " . $_POST['nome']);
-        print_r("<br>");
-        print_r("Email: " .$_POST['email']);
-        print_r("<br>");
-        print_r("Telefone: " .$_POST['telefone']);
-        print_r("<br>");
-        print_r("Sexo: " .$_POST['genero']);
-        print_r("<br>");
-        print_r("Data de Nascimento: " .$_POST['data_nascimento']);
-        print_r("<br>");
-        print_r("Cidade: " .$_POST['cidade']);
-        print_r("<br>");
-        print_r("Estado: " .$_POST['estado']);
-        print_r("<br>");
-        print_r("Endereço: " .$_POST['endereco']);
-        print_r("<br>");
-        */
-
-        // passando as informações de todos os inputs para o banco de dados
-
-        include_once('config.php');
-
-        $nome = $_POST['nome'];
-        $email = $_POST['email'];
-        $senha = $_POST['senha'];
-        $telefone = $_POST['telefone'];
-        $sexo = $_POST['genero'];
-        $data_nasc = $_POST['data_nascimento'];
-        $cidade = $_POST['cidade'];
-        $estado = $_POST['estado'];
-        $endereco = $_POST['endereco'];
-
-        $result = mysqli_query($conexao, "INSERT INTO usuarios(nome, email, senha, telefone, sexo, data_nasc, cidade, estado, endereco)
-         VALUES ('$nome', '$email', '$senha', '$telefone', '$sexo', '$data_nasc', '$cidade', '$estado', '$endereco')");
-    }
-?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -62,6 +21,65 @@
             <div id="cadastro">
                 <h1>Cadastro</h1>
                 <p>Seja bem-vindo(a) ao nosso site, faça aqui seu cadastro!</p>
+                <?php 
+
+                    if(isset($_POST['submit']))
+                {
+                    /* aparecendo na tela as informações
+                        print_r("Nome: " . $_POST['nome']);
+                        print_r("<br>");
+                        print_r("Email: " .$_POST['email']);
+                        print_r("<br>");
+                        print_r("Telefone: " .$_POST['telefone']);
+                        print_r("<br>");
+                        print_r("Sexo: " .$_POST['genero']);
+                        print_r("<br>");
+                        print_r("Data de Nascimento: " .$_POST['data_nascimento']);
+                        print_r("<br>");
+                        print_r("Cidade: " .$_POST['cidade']);
+                        print_r("<br>");
+                        print_r("Estado: " .$_POST['estado']);
+                        print_r("<br>");
+                        print_r("Endereço: " .$_POST['endereco']);
+                        print_r("<br>");
+                        */
+
+                        // passando as informações de todos os inputs para o banco de dados
+
+                        include_once('config.php');
+                        
+                        $nome = $_POST['nome'];
+                        $email = $_POST['email'];
+                        $senha = $_POST['senha'];
+                        $telefone = $_POST['telefone'];
+                        $sexo = $_POST['genero'];
+                        $data_nasc = $_POST['data_nascimento'];
+                        $cidade = $_POST['cidade'];
+                        $estado = $_POST['estado'];
+                        $endereco = $_POST['endereco'];
+
+                        /*Verificando se o email e senha já existem*/ 
+
+                        $sqlEmail = "SELECT * FROM usuarios WHERE email = '$email'";
+                        $resultEmail = $conexao->query($sqlEmail);
+
+                        $sqlSenha = "SELECT * FROM usuarios WHERE senha = '$senha'";
+                        $resultSenha = $conexao->query($sqlSenha);
+
+                        if(mysqli_num_rows($resultEmail) == 1)
+                        {
+                            echo "Email já cadastrado! Troque o seu email.";
+                        }else{
+                            if(mysqli_num_rows($resultSenha) == 1){
+                                echo "Essa senha pode ter sido utilizada, tente uma mais forte!";
+                            } else{
+                                $result = mysqli_query($conexao, "INSERT INTO usuarios(nome, email, senha, telefone, sexo, data_nasc, cidade, estado, endereco)
+                                VALUES ('$nome', '$email', '$senha', '$telefone', '$sexo', '$data_nasc', '$cidade', '$estado', '$endereco')");
+                                echo "Cadastro feito com sucesso! Volte agora para fazer o seu login.";
+                            }
+                        }
+                    }
+                ?>
                 <form  action="formulario.php" method = "POST" autocomplete="on">
                 <div class="campo">
                         <i class="material-symbols-outlined">person</i>
@@ -112,7 +130,7 @@
                         <input type="text" name="endereco" id="endereco" placeholder="seu endereço" autocomplete="endereco" required="" maxlength="45">
                         <label for="endereco">Endereco</label>
                     </div>
-                    <input type="submit" class = "entrar" name="submit" id="submit">
+                    <input type="submit" class = "entrar" name="submit" id="submit" value = 'Cadastrar'>
                 </form>
             </div>
         </section>

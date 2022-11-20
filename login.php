@@ -25,7 +25,41 @@
             <div id="formLogin">
                 <h1>Login</h1>
                 <p>Seja bem-vindo(a) novamente. Faça login para acessar sua conta.</p>
-                <form  action="testLogin.php" method = "POST" autocomplete="on">
+
+                <?php
+                     if(isset($_POST['submit'])){
+                        session_start();
+                        include_once('config.php');
+                
+                        $email = $_POST['email'];
+                        $senha = $_POST['senha'];
+                
+                        /* Testando se está recebendo email e senha
+                        print_r('Email: ' . $email);
+                        print_r('<br>');
+                        print_r('Senha: ' . $senha);
+                        */
+                
+                        $sql = "SELECT * FROM usuarios WHERE email = '$email' and senha = '$senha'";
+                        $result = $conexao->query($sql);
+                
+                        /* verificando se existe esse usuário
+                        print_r($result);
+                        */
+                
+                        if(mysqli_num_rows($result) < 1){
+                            unset($_SESSION ['email']);
+                            unset($_SESSION ['senha']);
+                            print_r('Essa conta não existe, faça seu cadastro primeiro!');
+                        }
+                        else{
+                            $_SESSION ['email'] = $email;
+                            $_SESSION ['senha'] = $senha;
+                            header('Location: sistema.php');
+                        }
+                     }
+                ?>
+                <form  action="login.php" method = "POST" autocomplete="on">
                     <div class="campo">
                         <i class="material-symbols-outlined">person</i>
                         <input type="email" name="email" id="email" placeholder="seu e-mail" autocomplete="email" required="" maxlength="40">

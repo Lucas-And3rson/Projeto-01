@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class = "headHome">
-        <h1>Seja bem vindo(a)</h1>
+        <h1>Seja bem vindo(a) </h1> 
     </div>
     <div class = "box">
         <div class = "voltar">
